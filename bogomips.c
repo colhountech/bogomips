@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
          return 0;
     }  
 	
-    volatile register int loop = 100 * MILLION;;
+    volatile register int loop = 1000 * MILLION;;
     struct timespec start_time = gettime();
     while (loop--) {
 	    
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
         diff = extra + diff;
     }
 	
-    double ips = 100.0 * (double)MILLION / (diff); // in nanoseconds
+    double ips = 1000.0 * (double)MILLION / (diff); // in nanoseconds
     // printf("Instructions Per Nanosecond : %lf\n", ips);
     
     double bogomips = ips * 1000;
