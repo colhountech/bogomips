@@ -2,7 +2,8 @@ PROG := bogomips
 SRCS := bogomips.c
 
 CC      := cc
-CFLAGS  := -O2 -Wall 
+CFLAGS  := -O2
+#CFLAGS := -Wall -DDEBUG
 LDFLAGS :=
 
 OBJS   = $(SRCS:.c=.o)

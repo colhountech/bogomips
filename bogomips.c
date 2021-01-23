@@ -28,7 +28,15 @@ SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h>
 #define MILLION 1000000
+#define BILLION 1000000000.0d
+
+#ifdef DEBUG
+#define DEBUG_PRINT(fmt, args...)    fprintf(stderr, fmt, ## args)
+#else
+#define DEBUG_PRINT(fmt, args...)    /* nothing */
+#endif
 
 struct timespec gettime()
 {
@@ -43,15 +51,21 @@ struct timespec gettime()
 int main(int argc, char *argv[])
 {
 
-    long diff = 0;
-    long extra = 0;
+     long long diff = 0;
+     long long extra = 0;
    
     if (argc > 1) {
          printf("Usage: bogomips \n");
          return 0;
     }  
 	
-    volatile register int loop = 1000 * MILLION;;
+    DEBUG_PRINT ("sizeof(int) = %d\n",sizeof(int));
+    DEBUG_PRINT ("sizeof(long) = %d\n",sizeof(long));
+    DEBUG_PRINT ("sizeof(unsigned long) = %d\n",sizeof(unsigned long));
+    DEBUG_PRINT ("sizeof(long long) = %d\n",sizeof(long long));
+	    
+    volatile register int loop = 1000 * MILLION;
+    DEBUG_PRINT("loop  : %09d\n", loop);   
     struct timespec start_time = gettime();
     while (loop--) {
 	    
@@ -60,15 +74,16 @@ int main(int argc, char *argv[])
     struct timespec end_time = gettime();
 	
     diff = end_time.tv_nsec - start_time.tv_nsec;
-    
+    DEBUG_PRINT("diff  : %09lld\n", diff);   
     if ( end_time.tv_sec > start_time.tv_sec) {	     
 	     
-        extra = ((end_time.tv_sec - start_time.tv_sec) * 1000000000L);
-        diff = extra + diff;
+        extra = end_time.tv_sec - start_time.tv_sec;
+        
+        DEBUG_PRINT("extra : %09lld\n", extra);
     }
 	
-    double ips = 1000.0 * (double)MILLION / (diff); // in nanoseconds
-    // printf("Instructions Per Nanosecond : %lf\n", ips);
+    double ips = BILLION / ( (double)(extra * BILLION) + (double)diff ); // in nanoseconds
+    DEBUG_PRINT("Instructions Per Nanosecond : %lf\n", ips);
     
     double bogomips = ips * 1000;
     printf("BogoMIPS : %0.2lf\n", bogomips);

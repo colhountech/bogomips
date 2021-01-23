@@ -1,12 +1,16 @@
 # bogomips
 
 This app calculated time to do 100 millions operations of nothing.
-Useful for comparing old PC's that don't run linux. Not to be confused
-with the BogoMIPS in the linux kernel.
+Useful for comparing PCs and Raspberry Pis
+
+# version
+
+v0.0.1 - Fixed overflow issue on 32bit Raspberry Pi 2, Added DEBUG flags to Makefile
 
 
 | CPU                                            | BogoMips| Comment  |Linux BogoMIPS|
 |------------------------------------------------|---------|----------|--------------|
+| ARMv7 Processor rev 5 (v7l) (Raspberry Pi 2)   | 149.05  | Pi 2     | 38.4   |
 | Raspberry Pi 4 Model B Rev 1.2                 | 189.66  | Pi 4     | 108    | 
 | Intel(R) Atom(TM) CPU  330 @ 1.60GHz           | 318.29  | Plex     |3200    |
 | 2.7 GHz Intel Core i5 (Macbook Pro Early 2015) | 420.71  | Laptop   |-       |
